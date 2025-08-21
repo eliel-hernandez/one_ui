@@ -2,9 +2,13 @@ import 'package:flutter/widgets.dart';
 
 class OneUIBottomNavigationBarItem {
   const OneUIBottomNavigationBarItem({
+    this.icon,
     this.title,
     this.label,
-  }) : assert(title == null || label == null);
+  }) : assert(icon == null || title == null || label == null);
+
+  /// The icon of the item.
+  final Widget? icon;
 
   /// The title of the item.
   ///
