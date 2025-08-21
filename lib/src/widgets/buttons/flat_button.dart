@@ -38,12 +38,11 @@ class OneUIFlatButton extends ButtonStyleButton {
         : theme.splashFactory;
 
     return TextButton.styleFrom(
-      primary: colorScheme.primary,
-      onSurface: colorScheme.onSurface,
+      foregroundColor: colorScheme.primary, disabledForegroundColor: colorScheme.onSurface.withOpacity(0.38),
       backgroundColor: Colors.transparent,
       shadowColor: theme.shadowColor,
       elevation: 0,
-      textStyle: theme.textTheme.button,
+      textStyle: theme.textTheme.labelLarge,
       padding: _scaledPadding(context),
       minimumSize: const Size(64, 36),
       maximumSize: Size.infinite,

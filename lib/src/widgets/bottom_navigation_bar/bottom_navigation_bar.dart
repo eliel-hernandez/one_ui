@@ -184,7 +184,7 @@ class _Label extends StatelessWidget {
 
     return MediaQuery(
       data: mediaQueryData.copyWith(
-        textScaleFactor: math.min(1.0, mediaQueryData.textScaleFactor),
+        textScaler: TextScaler.linear(math.min(1.0, mediaQueryData.textScaleFactor)),
       ),
       child: Align(
         alignment: Alignment.center,
@@ -332,7 +332,7 @@ class _OneUIBottomNavigationBarState extends State<OneUIBottomNavigationBar>
       end: widget.selectedItemColor ??
           bottomTheme.selectedItemColor ??
           widget.fixedColor ??
-          themeData.textTheme.bodyText1?.color,
+          themeData.textTheme.bodyLarge?.color,
     );
     final MouseCursor effectiveMouseCursor =
         widget.mouseCursor ?? SystemMouseCursors.click;
@@ -377,7 +377,6 @@ class _OneUIBottomNavigationBarState extends State<OneUIBottomNavigationBar>
   Widget build(BuildContext context) {
     assert(debugCheckHasDirectionality(context));
     assert(debugCheckHasMediaQuery(context));
-    assert(Overlay.of(context, debugRequiredFor: widget) != null);
 
     final BottomNavigationBarThemeData bottomTheme =
         BottomNavigationBarTheme.of(context);

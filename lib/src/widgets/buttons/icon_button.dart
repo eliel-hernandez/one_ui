@@ -78,12 +78,12 @@ class OneUIIconButton extends IconButton {
     Widget result = ConstrainedBox(
       constraints: adjustedConstraints,
       child: Padding(
-        padding: padding,
+        padding: padding ?? EdgeInsets.all(8.0),
         child: SizedBox(
           height: effectiveIconSize,
           width: effectiveIconSize,
           child: Align(
-            alignment: alignment,
+            alignment: alignment ?? Alignment.center,
             child: IconTheme.merge(
               data: IconThemeData(
                 size: effectiveIconSize,
@@ -112,7 +112,7 @@ class OneUIIconButton extends IconButton {
         canRequestFocus: onPressed != null,
         onTap: onPressed,
         mouseCursor: mouseCursor,
-        enableFeedback: enableFeedback,
+        enableFeedback: enableFeedback ?? true,
         child: result,
         focusColor: focusColor ?? theme.focusColor,
         hoverColor: hoverColor ?? theme.hoverColor,
@@ -123,7 +123,7 @@ class OneUIIconButton extends IconButton {
             math.max(
               20,
               (effectiveIconSize +
-                      math.min(padding.horizontal, padding.vertical)) *
+                      math.min(padding?.horizontal ?? 0, padding?.vertical ?? 0)) *
                   0.5,
             ),
       ),

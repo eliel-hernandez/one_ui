@@ -356,7 +356,7 @@ class OneUIAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// If this property is null, then [AppBarTheme.toolbarTextStyle] of
   /// [ThemeData.appBarTheme] is used. If that is also null, the default
-  /// value is a copy of the overall theme's [TextTheme.bodyText2]
+  /// value is a copy of the overall theme's [TextTheme.bodyMedium]
   /// [TextStyle], with color set to the app bar's [foregroundColor].
   /// {@endtemplate}
   final TextStyle? toolbarTextStyle;
@@ -366,7 +366,7 @@ class OneUIAppBar extends StatefulWidget implements PreferredSizeWidget {
   ///
   /// If this property is null, then [AppBarTheme.titleTextStyle] of
   /// [ThemeData.appBarTheme] is used. If that is also null, the default
-  /// value is a copy of the overall theme's [TextTheme.headline6]
+  /// value is a copy of the overall theme's [TextTheme.titleLarge]
   /// [TextStyle], with color set to the app bar's [foregroundColor].
   /// {@endtemplate}
   final TextStyle? titleTextStyle;
@@ -441,31 +441,31 @@ class _OneUIAppBarState extends State<OneUIAppBar> {
         overallIconTheme;
 
     TextStyle? toolbarTextStyle = backwardsCompatibility
-        ? widget.textTheme?.bodyText2 ??
+        ? widget.textTheme?.bodyMedium ??
             appBarTheme.toolbarTextStyle ??
-            theme.primaryTextTheme.bodyText2
+            theme.primaryTextTheme.bodyMedium
         : widget.toolbarTextStyle ??
             appBarTheme.toolbarTextStyle ??
-            theme.textTheme.bodyText2?.copyWith(color: foregroundColor);
+            theme.textTheme.bodyMedium?.copyWith(color: foregroundColor);
 
     TextStyle? titleTextStyle = backwardsCompatibility
-        ? widget.textTheme?.headline6 ??
+        ? widget.textTheme?.titleLarge ??
             appBarTheme.titleTextStyle ??
-            theme.primaryTextTheme.headline6
+            theme.primaryTextTheme.titleLarge
         : widget.titleTextStyle ??
             appBarTheme.titleTextStyle ??
-            theme.textTheme.headline6?.copyWith(color: foregroundColor);
+            theme.textTheme.titleLarge?.copyWith(color: foregroundColor);
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity =
           const Interval(0.25, 1.0, curve: Curves.fastOutSlowIn)
               .transform(widget.toolbarOpacity);
-      if (titleTextStyle?.color != null) {
-        titleTextStyle = titleTextStyle!
+      if (titleTextStyle!.color != null) {
+        titleTextStyle = titleTextStyle
             .copyWith(color: titleTextStyle.color!.withOpacity(opacity));
       }
-      if (toolbarTextStyle?.color != null) {
-        toolbarTextStyle = toolbarTextStyle!
+      if (toolbarTextStyle!.color != null) {
+        toolbarTextStyle = toolbarTextStyle
             .copyWith(color: toolbarTextStyle.color!.withOpacity(opacity));
       }
       overallIconTheme = overallIconTheme.copyWith(
@@ -524,7 +524,7 @@ class _OneUIAppBarState extends State<OneUIAppBar> {
       }
 
       title = DefaultTextStyle(
-        style: titleTextStyle!,
+        style: titleTextStyle ?? const TextStyle(),
         softWrap: false,
         overflow: TextOverflow.ellipsis,
         child: title,
@@ -538,10 +538,10 @@ class _OneUIAppBarState extends State<OneUIAppBar> {
       final MediaQueryData mediaQueryData = MediaQuery.of(context);
       title = MediaQuery(
         data: mediaQueryData.copyWith(
-          textScaleFactor: math.min(
+          textScaler: TextScaler.linear(math.min(
             mediaQueryData.textScaleFactor,
             _kMaxTitleTextScaleFactor,
-          ),
+          )),
         ),
         child: title,
       );
@@ -588,7 +588,7 @@ class _OneUIAppBarState extends State<OneUIAppBar> {
         child: IconTheme.merge(
           data: overallIconTheme,
           child: DefaultTextStyle(
-            style: toolbarTextStyle!,
+            style: toolbarTextStyle ?? const TextStyle(),
             child: toolbar,
           ),
         ),
@@ -653,17 +653,13 @@ class _OneUIAppBarState extends State<OneUIAppBar> {
       );
     }
 
-    final Brightness overlayStyleBrightness =
-        widget.brightness ?? colorScheme.brightness;
-    final SystemUiOverlayStyle overlayStyle = backwardsCompatibility
-        ? (overlayStyleBrightness == Brightness.dark
-            ? SystemUiOverlayStyle.light
-            : SystemUiOverlayStyle.dark)
-        : widget.systemOverlayStyle ??
-            appBarTheme.systemOverlayStyle ??
-            (colorScheme.brightness == Brightness.dark
-                ? SystemUiOverlayStyle.light
-                : SystemUiOverlayStyle.dark);
+    final SystemUiOverlayStyle overlayStyle =
+    widget.systemOverlayStyle ??
+    appBarTheme.systemOverlayStyle ??
+    (colorScheme.brightness == Brightness.dark
+        ? SystemUiOverlayStyle.light
+        : SystemUiOverlayStyle.dark);
+
 
     return Semantics(
       container: true,
